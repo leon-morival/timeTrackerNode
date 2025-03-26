@@ -1,14 +1,18 @@
 -- Configure MySQL authentication properly
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '';
-CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root_password';
+CREATE USER IF NOT EXISTS 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root_password';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+
+-- Ensure the user from docker-compose has proper permissions
+CREATE USER IF NOT EXISTS 'lmorival'@'%' IDENTIFIED BY 'leon';
+GRANT ALL PRIVILEGES ON time_tracker.* TO 'lmorival'@'%';
 FLUSH PRIVILEGES;
 
 -- Create database if it doesn't exist
-CREATE DATABASE IF NOT EXISTS timetracker;
+CREATE DATABASE IF NOT EXISTS time_tracker;
 
-USE timetracker;
+USE time_tracker;
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
